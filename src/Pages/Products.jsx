@@ -10,9 +10,9 @@ function Products() {
                 <div className="col-3">
                     {/* Cards */}
             <Card className = "shadow-lg p-3 mb-5 bg-body rounded">
-                <Card.Img style={{ height: '250px' }} variant="top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCgQVuEKEEDn2J_PWJcgLDTWztdW5wVA_kfQvW9NT-9A&s" />
+                <Card.Img style={{ height: '250px' }} variant="top" src="https://i.pinimg.com/736x/b2/55/b7/b255b798ab5b24b279ceb061859ea8af.jpg" />
                 <Card.Body className='text-center'>
-                    <Card.Title>Card Title</Card.Title>
+                    <Card.Title>Bella Vita </Card.Title>
                     <Link className="btn btn-primary" to={`/products/1`}>
                         View More
                     </Link>
