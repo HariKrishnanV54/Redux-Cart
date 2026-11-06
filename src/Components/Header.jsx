@@ -15,8 +15,7 @@ function Header() {
       <Container>
         <Navbar.Brand>
           <Link to="/" className="text-white text-decoration-none d-flex align-items-center gap-2">
-            <FontAwesomeIcon icon={faTruck} />
-            <span>E-Cart</span>
+            <i className="fa-solid fa-truck-fast"></i> E-Cart
           </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -35,7 +34,7 @@ function Header() {
               Wishlist
             </Link>
           <Link to="/cart" className="text-white text-decoration-none">
-              <i class="fa-solid fa-cart-shopping"></i>
+              <i className="fa-solid fa-cart-shopping"></i>
               <Badge bg="secondary">5</Badge>
               Cart
             </Link>

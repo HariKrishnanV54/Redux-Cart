@@ -10,7 +10,7 @@ function Footer() {
           {/* Column 1: Brand Info */}
           <div className="col-12 col-md-4">
             <h4 className="fw-bold mb-3 d-flex align-items-center gap-2">
-              <i className="fa-solid fa-truck-fast"></i> DailyCart
+              <i className="fa-solid fa-truck-fast"></i> E-Cart
             </h4>
             <p className="mb-3">
               Designed and built with all the love in the world by the Luminar

@@ -1,25 +1,45 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Card from 'react-bootstrap/Card';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getAllProducts } from "../redux/slices/productSlice"
 
 function Products() {
+    const { loading, allProducts, error } = useSelector((state) => state.productReducer || {})
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getAllProducts())
+    }, [dispatch])
+
     return (
         <div className='m-5'>
-            <div className='row pt-5'>
-                {/* Duplicate column  according to products */}
-                <div className="col-3">
-                    {/* Cards */}
-            <Card className = "shadow-lg p-3 mb-5 bg-body rounded">
-                <Card.Img style={{ height: '250px' }} variant="top" src="https://i.pinimg.com/736x/b2/55/b7/b255b798ab5b24b279ceb061859ea8af.jpg" />
-                <Card.Body className='text-center'>
-                    <Card.Title>Bella Vita </Card.Title>
-                    <Link className="btn btn-primary" to={`/products/1`}>
-                        View More
-                    </Link>
-                </Card.Body>
-            </Card>
-                </div>
-            </div>
+            {
+                loading ?
+                    <div className="text-center py-5 fw-bold">Loading...</div>
+                    :
+                    <div className='row pt-5'>
+                        {/* Duplicate column according to the products */}
+                        {
+                            allProducts?.length > 0 ? 
+                                allProducts.map(product => (
+                                    <div key={product?.id} className="col-3">
+                                        {/* Cards */}
+                                        <Card className='shadow p-2 mb-4'>
+                                            <Card.Img style={{ height: '250px'}} variant="top" src={product?.thumbnail} />
+                                            <Card.Body className='text-center'>
+                                                <Card.Title>{product?.title}</Card.Title>
+                                                <Link to={`/products/${product?.id}`} className='btn btn-info'>View More</Link>
+                                            </Card.Body>
+                                        </Card>
+                                    </div>
+                                ))
+                             : (
+                                <div className="text-center py-5 fw-bold">{error || "No Products Found"}</div>
+                            )
+                        }
+                    </div>
+            }
         </div>
     )
 }
