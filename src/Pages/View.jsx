@@ -1,17 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-regular-svg-icons';
 import Header from '../Components/Header';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
+import { addToWishlist } from '../redux/slices/wishlistSlice';
+import Products from './Products';
 
 function View() {
-  const {id} = useParams()
+  const { id } = useParams();
   console.log(id);
-  const {allProducts} = useSelector(state=>state.productReducer)
+  const { allProducts } = useSelector(state => state.productReducer);
+  const [product, setProduct] = useState([]);
+  const userWishlist = useSelector(state => state.wishlistReducer);
+  const dispatch = useDispatch();
+  console.log(userWishlist);
+
+  useEffect(() => {
+    setProduct(allProducts?.find(item => item.id == id));
+  }, [allProducts, id]);
   console.log(allProducts);
-  
-  
+
+  const hanldeWishlist = () => {
+    const existingItem = userWishlist?.find(item => item?.id == product?.id);
+    if (existingItem) {
+      Swal.fire({
+        title: "Sorry",
+        text: "Prodct is already wishlisted",
+        icon: 'error',
+        confirmButtonText: "ok"
+      });
+    } else {
+      dispatch(addToWishlist(product));
+    }
+  };
+
   return (
     <>
       <Header />
@@ -19,33 +43,33 @@ function View() {
         <div className="row align-items-center" style={{ minHeight: '80vh' }}>
           <div className="col-md-6 text-center mb-4 mb-md-0">
             <img
-              src="https://i.pinimg.com/736x/b2/97/2a/b2972a0766a5c9550b0b3b6870b2ebb1.jpg"
+              src={product?.thumbnail}
               alt="Bella Vita"
               className="img-fluid rounded"
               style={{ maxHeight: '420px', objectFit: 'contain' }}
             />
             <div className="d-flex justify-content-center gap-3 mt-3">
-              <button type="button" className="btn btn-outline-primary">Add to Wishlist</button>
+              <button onClick={hanldeWishlist} type="button" className="btn btn-outline-primary">Add to Wishlist</button>
               <button type="button" className="btn btn-primary">Add to Cart</button>
             </div>
           </div>
 
           <div className="col-md-6">
-            <h1 className="fw-bold">Bella Vita</h1>
-            <h2 className="text-primary fw-bold mb-3">$ 200</h2>
-            <h5 className="fw-bold text-muted">Brand: <span className="text-dark fw-normal">Bella Vita</span></h5>
-            <h5 className="fw-bold text-muted">Category: <span className="text-dark fw-normal">Fragrance</span></h5>
-            <h5 className="fw-bold text-muted">Description:</h5>
-            <p className="text-secondary">Luxury organic perfume crafted for all-day freshness.</p>
+            <h1 className="fw-bold">{product?.title}</h1>
+            <h2 className="text-primary fw-bold mb-3">$ {product?.price}</h2>
+            <h5 className="fw-bold text-muted">Brand:  {product?.brand} </h5>
+            <h5 className="fw-bold text-muted">Category:  {product?.category}</h5>
+            <h5 className="fw-bold text-muted">Description: {product?.description}</h5>
 
             <h5 className="fw-bold mt-4">Client reviews:</h5>
-            <div className="border rounded p-3 shadow-sm my-3">
-              <p className="mb-1"><span className="fw-bold">Name: </span>Great fragrance, lasts long!</p>
-              <p className="mb-0 text-warning d-flex align-items-center gap-1">
-                <span className="text-dark me-1">Rating:</span>
-                <FontAwesomeIcon icon={faStar} />
-              </p>
-            </div>
+            {
+              product?.reviews?.map((item, index) => (
+                <div key={index} className='border rounded p-2 shadow my-5'>
+                  <p><span className='fw-bolder'>Name: {item?.reviewname}</span> {item?.comment}</p>
+                  <p>Rating: {item?.rating} <FontAwesomeIcon icon={faStar} className='text-warning' /> </p>
+                </div>
+              ))
+            }
           </div>
         </div>
       </div>

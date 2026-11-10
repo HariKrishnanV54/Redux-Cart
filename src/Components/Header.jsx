@@ -3,13 +3,14 @@ import { Container, Nav, Navbar, Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
-import { useDispatch } from 'react-redux';
-
-// 1. IMPORT YOUR ACTION (verify the relative path to your slice)
-import { searchProducts } from '../redux/slices/productSlice'; 
+import { useDispatch, useSelector } from 'react-redux';
+import { searchProducts } from '../redux/slices/productSlice';
 
 function Header({ InsideProducts }) {
   const dispatch = useDispatch();
+
+  // Retrieve wishlist from Redux store (adjust the state property name to match your store configuration)
+  const userWishlist = useSelector((state) => state.wishlistReducer);
 
   return (
     <Navbar expand="lg" className="bg-primary text-white bg-opacity-75">
@@ -25,8 +26,7 @@ function Header({ InsideProducts }) {
             {InsideProducts && (
               <Nav.Item className="w-100 w-lg-auto">
                 <input
-                  // 2. DISPATCH THE CORRECTLY SPELLED ACTION
-                  onChange={(e) => dispatch(searchProducts(e.target.value))}
+                  onChange={(e) => dispatch(searchProducts(e.target.value.toLowerCase()))}
                   type="text"
                   className="form-control"
                   placeholder="Search your products..."
@@ -35,7 +35,7 @@ function Header({ InsideProducts }) {
               </Nav.Item>
             )}
             <Link to="/wishlist" className="text-white text-decoration-none">
-              <FontAwesomeIcon icon={faHeart} /> <Badge bg="secondary">10</Badge> Wishlist
+              <FontAwesomeIcon icon={faHeart} /> <Badge bg="secondary">{userWishlist?.length || 0}</Badge> Wishlist
             </Link>
             <Link to="/cart" className="text-white text-decoration-none">
               <i className="fa-solid fa-cart-shopping"></i> <Badge bg="secondary">5</Badge> Cart
