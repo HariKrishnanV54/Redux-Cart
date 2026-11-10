@@ -1,15 +1,16 @@
 import React from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
+import { Container, Nav, Navbar, Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTruck } from '@fortawesome/free-regular-svg-icons/faTruck';
-import { faHeart } from '@fortawesome/free-regular-svg-icons/faHeart';
-import Badge from 'react-bootstrap/Badge';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { useDispatch } from 'react-redux';
 
+// 1. IMPORT YOUR ACTION (verify the relative path to your slice)
+import { searchProducts } from '../redux/slices/productSlice'; 
 
+function Header({ InsideProducts }) {
+  const dispatch = useDispatch();
 
-
-function Header() {
   return (
     <Navbar expand="lg" className="bg-primary text-white bg-opacity-75">
       <Container>
@@ -21,22 +22,23 @@ function Header() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto align-items-center gap-2">
-            <Nav.Item>
-              <input 
-                type="text" 
-                className="form-control" 
-                placeholder="Search your products..." 
-              />
-            </Nav.Item>
+            {InsideProducts && (
+              <Nav.Item className="w-100 w-lg-auto">
+                <input
+                  // 2. DISPATCH THE CORRECTLY SPELLED ACTION
+                  onChange={(e) => dispatch(searchProducts(e.target.value))}
+                  type="text"
+                  className="form-control"
+                  placeholder="Search your products..."
+                  style={{ minWidth: '260px' }}
+                />
+              </Nav.Item>
+            )}
             <Link to="/wishlist" className="text-white text-decoration-none">
-              <FontAwesomeIcon icon={faHeart} />
-              <Badge bg="secondary">10</Badge>
-              Wishlist
+              <FontAwesomeIcon icon={faHeart} /> <Badge bg="secondary">10</Badge> Wishlist
             </Link>
-          <Link to="/cart" className="text-white text-decoration-none">
-              <i className="fa-solid fa-cart-shopping"></i>
-              <Badge bg="secondary">5</Badge>
-              Cart
+            <Link to="/cart" className="text-white text-decoration-none">
+              <i className="fa-solid fa-cart-shopping"></i> <Badge bg="secondary">5</Badge> Cart
             </Link>
           </Nav>
         </Navbar.Collapse>
@@ -44,6 +46,5 @@ function Header() {
     </Navbar>
   );
 }
-  
 
 export default Header;

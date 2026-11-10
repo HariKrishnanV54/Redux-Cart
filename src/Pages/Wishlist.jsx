@@ -2,10 +2,13 @@ import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react'
 import Card from 'react-bootstrap/Card';
+import Header from '../Components/Header'
 
 
 function Wishlist() {
   return (
+    <>
+    <Header />
     <div className='container my-5 pt-5 '>
       <h1 className='fw-bold pt-5 text-primary align-item justify-content-center'>Users Wishlist</h1>
         <div className='m-5'>
@@ -26,6 +29,7 @@ function Wishlist() {
             </div>
     </div>
     </div>
+    </>
   )
 }
 

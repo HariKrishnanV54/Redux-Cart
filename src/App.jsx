@@ -6,7 +6,7 @@ import Cart from './Pages/Cart'
 import View from './Pages/View'
 import PageNotFound from './Pages/PageNotFound'
 import Wishlist from './Pages/Wishlist'
-import Header from './Components/Header'
+
 import '/bootstrap.min.css'
 
 
@@ -14,7 +14,7 @@ function App() {
 
   return (
     <>
-  <Header />
+ 
     <Routes>
       <Route path="/" element={<Products />} />
       <Route path="/cart" element={<Cart />} />

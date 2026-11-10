@@ -1,8 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Header from '../Components/Header'
 
 function PageNotFound() {
   return (
+    <>
+    <Header/>
         <div style={{ height: '90vh' }} className='d-flex justify-content-center align-items-center flex-column text-center p-3'>
       <img style={{ maxWidth: '300px' }} className='w-50 img-fluid mb-4' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs-gU6OqhofUYshqfxIXvaufTHHo5TfuTSti0XbWtmjAd3-2LDoopnwbKP&s=10" alt="Page Not Found" />
 
@@ -10,6 +13,7 @@ function PageNotFound() {
 
       <Link to={'/'} className='btn btn-dark px-4 py-2'>Back to Home</Link>
     </div>
+    </>
   )
 }
 
