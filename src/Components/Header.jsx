@@ -7,10 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { searchProducts } from '../redux/slices/productSlice';
 
 function Header({ InsideProducts }) {
-  const dispatch = useDispatch();
+
 
   // Retrieve wishlist from Redux store (adjust the state property name to match your store configuration)
   const userWishlist = useSelector((state) => state.wishlistReducer);
+  const userCart = useSelector(state=>state.cartReducer)
+  const dispatch = useDispatch
 
   return (
     <Navbar expand="lg" className="bg-primary text-white bg-opacity-75">
@@ -38,7 +40,7 @@ function Header({ InsideProducts }) {
               <FontAwesomeIcon icon={faHeart} /> <Badge bg="secondary">{userWishlist?.length || 0}</Badge> Wishlist
             </Link>
             <Link to="/cart" className="text-white text-decoration-none">
-              <i className="fa-solid fa-cart-shopping"></i> <Badge bg="secondary">5</Badge> Cart
+              <i className="fa-solid fa-cart-shopping"></i> <Badge bg="secondary">{userCart?.length}</Badge> Cart
             </Link>
           </Nav>
         </Navbar.Collapse>

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { addToWishlist } from '../redux/slices/wishlistSlice';
 import Products from './Products';
+import { addCart } from '../redux/slices/cartSlice';
 
 function View() {
   const { id } = useParams();
@@ -14,6 +15,7 @@ function View() {
   const { allProducts } = useSelector(state => state.productReducer);
   const [product, setProduct] = useState([]);
   const userWishlist = useSelector(state => state.wishlistReducer);
+  const userCart = useSelector(state=>state.cartReducer)
   const dispatch = useDispatch();
   console.log(userWishlist);
 
@@ -34,7 +36,20 @@ function View() {
     } else {
       dispatch(addToWishlist(product));
     }
-  };
+  }
+
+   const hanldeCart = () => {
+    //check the product already in the cart
+    const existingItem = userCart?.find(item => item?.id == product?.id);
+   dispatch(addCart(product))
+   Swal.fire({
+       title:"Success",
+       text: existingItem? `$(existingItem.title) quantity incremented` : "Product added to your cart",
+       icon:"Success",
+       confirmButtonText:"Ok"
+
+   })
+  }
 
   return (
     <>
@@ -50,7 +65,7 @@ function View() {
             />
             <div className="d-flex justify-content-center gap-3 mt-3">
               <button onClick={hanldeWishlist} type="button" className="btn btn-outline-primary">Add to Wishlist</button>
-              <button type="button" className="btn btn-primary">Add to Cart</button>
+              <button onClick={hanldeCart} type="button" className="btn btn-primary">Add to Cart</button>
             </div>
           </div>
 
